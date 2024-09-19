@@ -4,7 +4,11 @@
 # How to run
 ## Config with annotation
 The servlet is configured with annotation by default.<br>
-Run the project on server in IDE. Or export the project to .war in the directory of TomCat .\webapps, then start the server.<br>
+To run the project on server in Eclipse IDE, need to have Tomcat V10.1 server implemented. <br>
+Right click on the project, then Run As > Run on Server.<br>
+In the browser, use url: http://localhost:8080/CarpoolingSys/carpool<br>
+<br>
+Or right click the project and export the project to WAR file, save it in the directory of TomCat .\webapps, then start the server.<br>
 In the browser, use url: http://localhost:8080/CarpoolingSys/carpool<br>
 
 ## Config with web.xml
