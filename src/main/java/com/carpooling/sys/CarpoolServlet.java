@@ -46,13 +46,22 @@ public class CarpoolServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 
-		out.println("<html><body><h1>Offer a Ride</h1>" + "<form action=\"carpool\" method=\"post\">"
-				+ "    <label>Start Location</label>" + "    <input type=\"text\" name=\"startLocation\" required />"
-				+ "    <br>" + "    <label>Destination</label>"
-				+ "    <input type=\"text\" name=\"destination\" required />" + "    <br>"
+		out.println("<html>"
+				+ "<head><title>Carpooling System</title></head>"
+				+ "<body><h1>Offer a Ride</h1>" 
+				+ "<form action=\"carpool\" method=\"post\">"
+				+ "    <label>Start Location</label>" 
+				+ "    <input type=\"text\" name=\"startLocation\" required />"
+				+ "    <br>" 
+				+ "    <label>Destination</label>"
+				+ "    <input type=\"text\" name=\"destination\" required />" 
+				+ "    <br>"
 				+ "    <label>Seats Available</label>"
-				+ "    <input type=\"number\" name=\"seatsAvailable\" min=\"1\" required />" + "    <br>"
-				+ "    <input type=\"submit\" value=\"Submit\">" + "</form>" + "<h1>Take a Ride</h1>");
+				+ "    <input type=\"number\" name=\"seatsAvailable\" min=\"1\" required />" 
+				+ "    <br>"
+				+ "    <input type=\"submit\" value=\"Submit\">" 
+				+ "</form>" 
+				+ "<h1>Take a Ride</h1>");
 
 		synchronized (rideList) {
 			if (rideList.isEmpty()) {
