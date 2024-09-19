@@ -46,22 +46,22 @@ public class CarpoolServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 
-		out.println("<html>"
-				+ "<head><title>Carpooling System</title></head>"
-				+ "<body><h1>Offer a Ride</h1>" 
-				+ "<form action=\"carpool\" method=\"post\">"
-				+ "    <label>Start Location</label>" 
-				+ "    <input type=\"text\" name=\"startLocation\" required />"
-				+ "    <br>" 
-				+ "    <label>Destination</label>"
-				+ "    <input type=\"text\" name=\"destination\" required />" 
-				+ "    <br>"
-				+ "    <label>Seats Available</label>"
-				+ "    <input type=\"number\" name=\"seatsAvailable\" min=\"1\" required />" 
-				+ "    <br>"
-				+ "    <input type=\"submit\" value=\"Submit\">" 
-				+ "</form>" 
-				+ "<h1>Take a Ride</h1>");
+		out.println("<html>" 
+					+ "<head><title>Carpooling System</title></head>" 
+					+ "<body><h1>Offer a Ride</h1>"
+					+ "<form action=\"carpool\" method=\"post\">" 
+					+ "    <label>Start Location</label>"
+					+ "    <input type=\"text\" name=\"startLocation\" required />" 
+					+ "    <br>"
+					+ "    <label>Destination</label>" 
+					+ "    <input type=\"text\" name=\"destination\" required />"
+					+ "    <br>" 
+					+ "    <label>Seats Available</label>"
+					+ "    <input type=\"number\" name=\"seatsAvailable\" min=\"1\" required />" 
+					+ "    <br>"
+					+ "    <input type=\"submit\" value=\"Submit\">" 
+					+ "</form>" 
+					+ "<h1>Take a Ride</h1>");
 
 		synchronized (rideList) {
 			if (rideList.isEmpty()) {
@@ -69,8 +69,10 @@ public class CarpoolServlet extends HttpServlet {
 			} else {
 				out.println("<ul>");
 				for (Rides ride : rideList) {
-					out.println("<li>Start Location: " + ride.getStartLocation() + " , Destination: "
-							+ ride.getDestination() + " Available Seats: " + ride.getSeatAvailable() + "</li>");
+					out.println("<li>Start Location: " + ride.getStartLocation() 
+								+ ", Destination: " + ride.getDestination() 
+								+ ", Available Seats: " + ride.getSeatAvailable() 
+								+ "</li>");
 				}
 				out.println("</ul>");
 			}
@@ -86,17 +88,21 @@ public class CarpoolServlet extends HttpServlet {
 		String destination = request.getParameter("destination");
 		String seatsAvailable = request.getParameter("seatsAvailable");
 
-		int seats = seatsValidate(seatsAvailable);
+		try {
+			int seats = seatsValidate(seatsAvailable);
+			Rides newRide = new Rides(startLocation, destination, seats);
 
-		Rides newRide = new Rides(startLocation, destination, seats);
+			synchronized (rideList) {
+				rideList.add(newRide);
+			}
 
-		synchronized (rideList) {
-			rideList.add(newRide);
+			getServletContext().log("Added ride: " + startLocation + " " + destination + " " + seats);
+
+			response.sendRedirect("carpool");
+		} catch (NumberFormatException nfe) {
+			getServletContext().log(nfe.getMessage());
 		}
 
-		getServletContext().log("Added ride: " + startLocation + " " + destination + " " + seats);
-
-		response.sendRedirect("carpool");
 	}
 
 	// validate the seat input
